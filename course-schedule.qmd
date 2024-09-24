@@ -32,10 +32,17 @@ agenda_final %>%
          Activity = map(Activity, glue::glue),
          submit_act = map(submit_act, glue::glue),
          Tutorial = map(Tutorial, glue::glue)) %>%
+  mutate(Week = ifelse(Week == "", "[]()", Week),
+         Reading = ifelse(Reading == "", "[]()", Reading),
+         Slides = ifelse(Slides == "", "[]()", Slides),
+         Activity = ifelse(Activity == "", "[]()", Activity),
+         submit_act = ifelse(submit_act == "", "[]()", submit_act),
+         Tutorial = ifelse(Tutorial == "", "[]()", Tutorial)) %>%
   gt() %>% 
   cols_move_to_start(
     columns = Week) %>% 
-  fmt_markdown(columns = c(Week, Reading, Slides, Activity, submit_act, Tutorial) ) %>% 
+  fmt_markdown(columns = c(Week, Reading, Slides, 
+                           Activity, submit_act, Tutorial) ) %>% 
   gt_theme_espn() %>% 
   tab_options(table.width = pct(100),
               table_body.hlines.color = "#4E2A84",

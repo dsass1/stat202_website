@@ -22,15 +22,9 @@ library(lubridate)
 today_ymd <- Sys.Date()
 today <- format(today_ymd,"%a %b %d")
 
-```
-
-```{r}
 agenda_final <- read.csv("documents/agenda_final.csv") %>% 
   mutate(time_due = today_ymd - as.Date(due_ymd))
 
-```
-
-```{r}
 E1 <- agenda_final %>% 
   filter(str_detect(Topic, "Exam 1")) %>% 
   pull(date_ymd)
@@ -73,31 +67,13 @@ agenda_show <- agenda_final2 %>%
 ```{r}
 # solution video not working rn
 
-# agenda_show %>% 
-#   select(Solutions, Solution_video) %>% 
-#   #t() %>% 
-#   as.data.frame() %>% 
-#   filter(Solutions != "") %>% 
-#   gt() %>% 
-#   fmt_markdown(columns = c(Solutions, Solution_video) )%>%
-#   cols_align(align = "left") %>% 
-#   tab_options(column_labels.hidden = TRUE,
-#               table.align = "left",
-#               table_body.border.top.color = "white",
-#               table_body.border.bottom.color = "white",
-#               table_body.hlines.color = "white",
-#               table.width = pct(100))
-
-```
-
-```{r}
 agenda_show %>%
-  select(Solutions) %>%
-  #t() %>%
+  select(Solutions, Solution_video) %>%
   as.data.frame() %>%
   filter(Solutions != "") %>%
+  mutate(Solution_video = ifelse(Solution_video == "", "[]()", Solution_video)) %>%
   gt() %>%
-  fmt_markdown(columns = c(Solutions) )%>%
+  fmt_markdown(columns = c(Solutions, Solution_video) )%>%
   cols_align(align = "left") %>%
   tab_options(column_labels.hidden = TRUE,
               table.align = "left",
@@ -105,6 +81,24 @@ agenda_show %>%
               table_body.border.bottom.color = "white",
               table_body.hlines.color = "white",
               table.width = pct(100))
+
+```
+
+```{r}
+# agenda_show %>%
+#   select(Solutions) %>%
+#   #t() %>%
+#   as.data.frame() %>%
+#   filter(Solutions != "") %>%
+#   gt() %>%
+#   fmt_markdown(columns = c(Solutions) )%>%
+#   cols_align(align = "left") %>%
+#   tab_options(column_labels.hidden = TRUE,
+#               table.align = "left",
+#               table_body.border.top.color = "white",
+#               table_body.border.bottom.color = "white",
+#               table_body.hlines.color = "white",
+#               table.width = pct(100))
 
 ```
 <br><br>
